@@ -17,10 +17,13 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <UserInput onChange={this.onChangeHandler}></UserInput>
-        <UserOutput name={this.state.username} />
-        <UserOutput name="Adriaan" />
-        <UserOutput name="Bakker" />
+        <UserInput
+          onChange={this.onChangeHandler}
+          username={this.state.username}
+        />
+        <UserOutput username={this.state.username} />
+        <UserOutput username="Adriaan" />
+        <UserOutput username="Bakker" />
       </div>
     );
   }
