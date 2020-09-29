@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import ValidatorComponent from './ValidatorComponent/ValidatorComponent';
+import CharComponent from './CharComponent/CharComponent';
 
 class App extends Component {
   state = {
@@ -12,6 +14,9 @@ class App extends Component {
       { id: 5, name: 'Berend', age: 1 },
     ],
     showPersons: false,
+    inputTextLength: null,
+    inputText: [],
+    characterKey: 0,
   };
 
   nameChangedHandler = (event, id) => {
@@ -25,8 +30,6 @@ class App extends Component {
     persons[personIndex] = person;
 
     this.setState({ persons });
-    console.log(this.state);
-    console.log(persons);
   };
 
   deletePersonHandler = index => {
@@ -39,6 +42,18 @@ class App extends Component {
     this.state.showPersons
       ? this.setState({ showPersons: false })
       : this.setState({ showPersons: true });
+  };
+
+  inputTextHandler = event => {
+    const inputText = event.target.value;
+    this.setState({ inputTextLength: inputText.length });
+    this.setState({ inputText: [...inputText] });
+  };
+
+  deleteCharComponent = index => {
+    let inputText = [...this.state.inputText];
+    inputText.splice(index, 1);
+    this.setState({ inputText });
   };
 
   render() {
@@ -62,24 +77,36 @@ class App extends Component {
       );
     }
 
+    const inputText = [...this.state.inputText];
+
+    let charComponents = (
+      <div>
+        {inputText.map((character, index) => {
+          return (
+            <CharComponent
+              character={character}
+              key={index}
+              click={() => this.deleteCharComponent(index)}
+            />
+          );
+        })}
+      </div>
+    );
+
     return (
       <div className="App">
         <h1>Hi, I'm a React App</h1>
-        <p>This is really working!</p>
+        <input
+          type="text"
+          value={this.state.inputText.join('')}
+          onChange={event => this.inputTextHandler(event)}
+        />
+        <ValidatorComponent textLength={this.state.inputTextLength} />
         <button onClick={this.togglePersons}>Toggle Persons</button>
+        {charComponents}
         {persons}
       </div>
     );
-    // Compiles to:
-    // return React.createElement(
-    //   'div',
-    //   null,
-    //   React.createElement(
-    //     'h1',
-    //     { className: 'App' },
-    //     'Hi, I'm a React App'
-    //   )
-    // );
   }
 }
 
