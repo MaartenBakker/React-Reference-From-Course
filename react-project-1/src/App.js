@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
-import ValidatorComponent from './ValidatorComponent/ValidatorComponent';
-import CharComponent from './CharComponent/CharComponent';
+import Validator from './Validator/Validator';
+import Char from './Char/Char';
 
 class App extends Component {
   state = {
@@ -14,7 +14,6 @@ class App extends Component {
       { id: 5, name: 'Berend', age: 1 },
     ],
     showPersons: false,
-    inputTextLength: null,
     inputText: [],
     characterKey: 0,
   };
@@ -50,7 +49,7 @@ class App extends Component {
     this.setState({ inputText: [...inputText] });
   };
 
-  deleteCharComponent = index => {
+  deleteChar = index => {
     let inputText = [...this.state.inputText];
     inputText.splice(index, 1);
     this.setState({ inputText });
@@ -77,16 +76,14 @@ class App extends Component {
       );
     }
 
-    const inputText = [...this.state.inputText];
-
-    let charComponents = (
+    const chars = (
       <div>
-        {inputText.map((character, index) => {
+        {this.state.inputText.map((character, index) => {
           return (
-            <CharComponent
+            <Char
               character={character}
               key={index}
-              click={() => this.deleteCharComponent(index)}
+              click={() => this.deleteChar(index)}
             />
           );
         })}
@@ -95,15 +92,17 @@ class App extends Component {
 
     return (
       <div className="App">
-        <h1>Hi, I'm a React App</h1>
+        <h1>Input your text</h1>
         <input
           type="text"
           value={this.state.inputText.join('')}
           onChange={event => this.inputTextHandler(event)}
         />
-        <ValidatorComponent textLength={this.state.inputTextLength} />
+        {chars}
+        <p>{this.state.inputText.length}</p>
+
+        <Validator textLength={this.state.inputText.length} />
         <button onClick={this.togglePersons}>Toggle Persons</button>
-        {charComponents}
         {persons}
       </div>
     );
