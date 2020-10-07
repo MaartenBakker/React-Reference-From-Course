@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+.red {
+  color: red;
+}
+
+.bold {
+  font-weight: bold;
+}
+
 .Persons {
   margin-left: 25%;
   margin-right: 25%;
@@ -11,8 +19,4 @@ input {
   display: block;
   margin: auto;
   margin-bottom: 30px;
-}
-
-button {
-  cursor: pointer;
 }
